@@ -56,7 +56,7 @@ def remove_enclosing(open_character, close_character, files_to_check):
         new = os.path.abspath(new)
         # if the new path already exists
         while os.path.exists(new):
-            user_input = str(input(f"\t\talready exists at {newfile};\n\tappend name as... '{newfile}.copy_x'\n\t\twhere 'x' is\n> "))
+            user_input = str(input(f"\t\talready exists at {new};\n\tappend name as... '{new}.copy_x'\n\t\twhere 'x' is\n> "))
             new = f"{new}.copy_{user_input}{ext}"
         # rename file
         shutil.move(old, new)
