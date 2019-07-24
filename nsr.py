@@ -75,7 +75,7 @@ def replace_single_char(char_to_remove, char_to_insert, file_list):
     global files_renamed
     files = [f for f in file_list if char_to_remove in f]
     count(files, f"files with '{char_to_remove}'", cwd)
-    press_to_cont("Press to Continue or type 'QUIT' > ")
+    #press_to_cont("Press to Continue or type 'QUIT' > ")
     for f in files:
         # Alias original filepath
         old = f
@@ -101,10 +101,25 @@ files = divide_files_from_dirs(ls)
 press_to_cont("\tScript does not currently have recursive functionality,\n\tso all files inside these directories will not be processed.\n\nPress RETURN to Continue or type 'QUIT' >  ")
 count(files, "files to process", cwd)
 list_files(files)
-files = remove_enclosing("(", ")", files)
-files = remove_enclosing("[", "]", files)
-files = remove_enclosing("{", "}", files)
+#files = remove_enclosing("(", ")", files)
+#files = remove_enclosing("[", "]", files)
+#files = remove_enclosing("{", "}", files)
 files = replace_single_char(' ', '_', files)
+files = replace_single_char("[", '', files)
+files = replace_single_char("]", '', files)
+files = replace_single_char("{", '', files)
+files = replace_single_char("}", '', files)
+files = replace_single_char("!", '', files)
+files = replace_single_char("$", '', files)
+files = replace_single_char("&", '', files)
+files = replace_single_char("*", '', files)
+files = replace_single_char("%", '', files)
+files = replace_single_char("@", 'at', files)
+files = replace_single_char("(", '', files)
+files = replace_single_char(")", '', files)
+files = replace_single_char("#", 'no', files)
+files = replace_single_char(':', '-', files)
+files = replace_single_char(';', '', files)
 files = replace_single_char('"', '', files)
 files = replace_single_char("'", '', files)
 

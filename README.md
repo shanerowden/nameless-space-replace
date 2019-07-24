@@ -1,19 +1,48 @@
-# nameless-space-replace v2
-Renames files for Linux, replaces spaces and removing special characters
+# nameless-space-replace v2.1
+Renames files for Linux, replaces spaces and removing special characters. This is handy for Windows users who have horded files and never realized they would one day think like a CLI user.
 
-For `remove_enclosing`, the first two parameters can be changed so enclosing characters to be removed. In `replace_single_char`, the first param is the character to be removed, and the second is the character to be inserted. You can add lines like these to the script to make other operations. `remove_enclosing` should precede all `replace_single_character` operations.
+# Usage
+Type `nsr` and the program will automatically rename files in the directory (not including directories). 
+
+# Installation
+Edit nsr.sh and make sure the filepath on line 2 reflects the permenant file path of nsr.py.
+
+Move and rename nsr.sh to bin directory without the extention using `cp nsr.sh /bin/nsr`. You will then need to `cd /bin && chmod +x nsr`. You may need to use `sudo` on both of these commands.
+
+Move back to the permenant path of nsr.py and `chmod +x nsr.py`and you should now be able to give the command `nsr` in any directory to rename it files.
+
+
+## Specific Changes
+The following lines 107 - 124 can be edited or changed.
+They reflect in the first parameter, the caracter to be replaced and in the second parameter, the character to be inserted.
 
 ```
-files = remove_enclosing("(", ")", files)
-files = remove_enclosing("[", "]", files)
-files = remove_enclosing("{", "}", files)
 files = replace_single_char(' ', '_', files)
+files = replace_single_char("[", '', files)
+files = replace_single_char("]", '', files)
+files = replace_single_char("{", '', files)
+files = replace_single_char("}", '', files)
+files = replace_single_char("!", '', files)
+files = replace_single_char("$", '', files)
+files = replace_single_char("&", '', files)
+files = replace_single_char("*", '', files)
+files = replace_single_char("%", '', files)
+files = replace_single_char("@", 'at', files)
+files = replace_single_char("(", '', files)
+files = replace_single_char(")", '', files)
+files = replace_single_char("#", 'no', files)
+files = replace_single_char(':', '-', files)
+files = replace_single_char(';', '', files)
 files = replace_single_char('"', '', files)
 files = replace_single_char("'", '', files)
 ```
 
-These operations will only affect the CWD. I put nsr.sh in my `/bin/` dir so that I can call it anywhere. You may need to edit this shell script to reflect the appropriate file path of nsr.py.
+## Interactive Mode Option
+If you would like an interactive mode (Press to Continue Mode), uncomment out line 78.
 
-The program will point out directories that exist in the CWD, but note that it does not have recursive functionality yet. This is mainly a precaution.
 
-Though I have tested it a bit, I'm sure there are scenarios it is not prepared to handle. Please feel free to submit issues or bugs.
+## Recursive
+The program will point out directories that exist in the CWD, but note that it does not have recursive functionality yet. This is mainly a precaution. This is why I have included walk.py which you can use if you want to, but I have not included in the program yet because I want to see what kind of bug we'll run into befopre I'm encouraging people to use it.
+
+## Testing
+Though I have tested it a bit, I'm sure there are possible still scenarios it is not prepared to handle, but dare I say I don't believe there are many of them. Please feel free to submit issues or bugs.
