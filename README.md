@@ -18,7 +18,7 @@ The `rm` dict on line 7-24 can be edited or changed. The key value pairs reflect
 The `remove_enclosing` function was removed as it caused errors in file sets endng with odd numbers of repeating characters. We now just use `replace_single_character` to do the same job in fewer lines.
 
 ## Interactive Mode Option
-If you would like an interactive mode (Press to Continue Mode), uncomment out line 78.
+If you would like an interactive mode (Press to Continue Mode), uncomment out line 67.
 
 
 ## Recursive
