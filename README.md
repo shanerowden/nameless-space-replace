@@ -1,4 +1,4 @@
-# nameless-space-replace v2.1
+# nameless-space-replace v2.2
 Renames files for Linux, replaces spaces and removing special characters. This is handy for Windows users who have horded files and never realized they would one day think like a CLI user.
 
 # Usage
@@ -12,30 +12,10 @@ Move and rename nsr.sh to bin directory without the extention using `cp nsr.sh /
 Move back to the permenant path of nsr.py and `chmod +x nsr.py`and you should now be able to give the command `nsr` in any directory to rename it files.
 
 
-## Specific Changes
-The following lines 107 - 124 can be edited or changed.
-They reflect in the first parameter, the character to be replaced and in the second parameter, the character to be inserted.
+## Specific Changes From 2.1 
+The `rm` dict on line 7-24 can be edited or changed. The key value pairs reflect the character to be replaced and the character to be inserted respectively. 
 
-```
-files = replace_single_char(' ', '_', files)
-files = replace_single_char("[", '', files)
-files = replace_single_char("]", '', files)
-files = replace_single_char("{", '', files)
-files = replace_single_char("}", '', files)
-files = replace_single_char("!", '', files)
-files = replace_single_char("$", '', files)
-files = replace_single_char("&", '', files)
-files = replace_single_char("*", '', files)
-files = replace_single_char("%", '', files)
-files = replace_single_char("@", 'at', files)
-files = replace_single_char("(", '', files)
-files = replace_single_char(")", '', files)
-files = replace_single_char("#", 'no', files)
-files = replace_single_char(':', '-', files)
-files = replace_single_char(';', '', files)
-files = replace_single_char('"', '', files)
-files = replace_single_char("'", '', files)
-```
+The `remove_enclosing` function was removed as it caused errors in file sets endng with odd numbers of repeating characters. We now just use `replace_single_character` to do the same job in fewer lines.
 
 ## Interactive Mode Option
 If you would like an interactive mode (Press to Continue Mode), uncomment out line 78.

@@ -4,6 +4,25 @@ import os
 import sys
 import shutil
 
+rm = {' ': '_',
+      '[': '',
+      ']': '',
+      '{': '',
+      '}': '',
+      '!': '',
+      '$': '',
+      '&': '',
+      '*': '',
+      '%': '',
+      '@': 'at',
+      '(': '',
+      ")": '',
+      "#": 'no',
+      ':': '-',
+      ';': '',
+      '"': '',
+      "'": ''}
+
 def list_dir():
     dir_path = os.getcwd()
     list_files = os.listdir(dir_path)
@@ -35,36 +54,6 @@ def list_files(file_list):
     for f in file_list:
         print(f"FILE: {f}")
     print("")
-
-def remove_enclosing(open_character, close_character, files_to_check):
-    global files_renamed
-    files = [f for f in files_to_check if open_character and close_character in f]
-    count(files, f"files with enclosing '{open_character} {close_character}'", cwd)
-    press_to_cont("Press to Continue or type 'QUIT' > ")
-    for f in files:
-        # Alias original filepath
-        old = f
-        # Make sure only editing relative filepath
-        f = f.split(os.sep)
-        f = f[-1]
-        # cut out characters
-        head, middle = f.split(open_character)
-        tail, ext = middle.split(close_character)
-        # reassemble file
-        new = head + tail + ext
-        # make absolute
-        new = os.path.abspath(new)
-        # if the new path already exists
-        while os.path.exists(new):
-            user_input = str(input(f"\t\talready exists at {new};\n\tappend name as... '{new}.copy_x'\n\t\twhere 'x' is\n> "))
-            new = f"{new}.copy_{user_input}{ext}"
-        # rename file
-        shutil.move(old, new)
-        files_renamed += 1
-    print(f"files with enclosing '{open_character} {close_character}' renamed")
-    # Make sure that new file list reflects changes
-    files = relist()
-    return files
 
 def relist():
     cwd, ls = list_dir()
@@ -101,26 +90,7 @@ files = divide_files_from_dirs(ls)
 press_to_cont("\tScript does not currently have recursive functionality,\n\tso all files inside these directories will not be processed.\n\nPress RETURN to Continue or type 'QUIT' >  ")
 count(files, "files to process", cwd)
 list_files(files)
-#files = remove_enclosing("(", ")", files)
-#files = remove_enclosing("[", "]", files)
-#files = remove_enclosing("{", "}", files)
-files = replace_single_char(' ', '_', files)
-files = replace_single_char("[", '', files)
-files = replace_single_char("]", '', files)
-files = replace_single_char("{", '', files)
-files = replace_single_char("}", '', files)
-files = replace_single_char("!", '', files)
-files = replace_single_char("$", '', files)
-files = replace_single_char("&", '', files)
-files = replace_single_char("*", '', files)
-files = replace_single_char("%", '', files)
-files = replace_single_char("@", 'at', files)
-files = replace_single_char("(", '', files)
-files = replace_single_char(")", '', files)
-files = replace_single_char("#", 'no', files)
-files = replace_single_char(':', '-', files)
-files = replace_single_char(';', '', files)
-files = replace_single_char('"', '', files)
-files = replace_single_char("'", '', files)
+for k, v in rm.items():
+    files = replace_single_char(k, v, files)
 
 print(f"Process Complete.\n\t{files_renamed} files were renamed")
