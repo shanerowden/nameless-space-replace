@@ -64,7 +64,10 @@ One of the commands I told you to enter is the `sudo` command, which will elevat
 
 I have concluded that this script is fairly reliable in terms of not damaging your files or system. At first I was somewhat nervous about encouraging people to use it, because I was so certain there was some elusive circumstance I was overlooking that would destroy something. So I took some time to test it. I've used it on everything from spaces, to dollars signs, colons, Russian characters, and emojis. 
 
-The worst case scenario is that, if your files are entirely in Russian (or other foreign character sets when I eventually add them and/or emojis in this case)... is that they could come out looking like this (in two columns):
+The worst case scenario is that, if your files are entirely in Russian (or other foreign character sets when I eventually add them and/or emojis in this case)... is that they could come out looking like this, except without the random nonsense characters to keep them there. What I mean is that, if the program removes every 'unique' character from a file that only has 'unique' characters, it will essentially try to rename itself something very simple., like... "___.jpg" might be a common possibility for such file names to reduce to. Suppose that this happened with multiple files... Well, what would happen is taht they would start writing over each other.
+
+So... I will look into safe guarding that. But otherwise, this is the worst that could happen if your files are anything but all Russian.
+
 
 ```
 26__2019_...-4ZbT3TRswvc.mp4      _-Im9jAPME-AA.mp4
