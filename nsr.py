@@ -3,25 +3,33 @@
 import os, sys, shutil, string
 
 
-# Data Structure:
+
+# Options
 #################
 
-russian_alphabet_off = False
+russian_alphabet_on = True
+push_to_cont = False
 
-# This will produce a string of all the characters in the Russian alphabet.
-russian_alphabet = ''.join(
-	[chr(i) for i in range(1040, 1104)])
+# I know that these should be argparse options. They probably will be sooner or later.
 
-if russian_alphabet_off:
-	russian_alphabet = ''
+
+
+# Data Structure:
+#################
 
 # This will produce a list of punctuation and whitespace characters we don't want in file names.
 rm_keys_list = [char for char in string.punctuation + 
       string.whitespace if not char in "-_+."]
 
-# This will add all of the alphabet characters to the list.
-for chr in russian_alphabet:
-	rm_keys_list.append(chr)
+if not russian_alphabet_on:
+	
+	# This will produce a string of all the characters in the Russian alphabet.
+	russian_alphabet = ''.join(
+		[chr(i) for i in range(1040, 1104)])
+
+	# This will add all of the alphabet characters to the list.
+	for chr in russian_alphabet:
+		rm_keys_list.append(chr)
 
 # This transforms list into the dict.
 rm = dict()
@@ -67,7 +75,7 @@ def divide_files_from_dirs(listed_files):
     return listedfiles
 
 def press_to_cont(msg):
-# will toggle interactive (press-to-continue) mode if you comment in/out the line calling the function
+# will toggle interactive (press-to-continue) mode
     confirm = input(msg)
     print("")
     if confirm == "QUIT":
@@ -96,9 +104,8 @@ def replace_single_char(char_to_remove, char_to_insert, file_list):
     files = [f for f in file_list if char_to_remove in f]
     count(files, f"files with '{char_to_remove}'", os.getcwd())
     
-	#remove the '#' from line below if you want the interactive mode:
-	
-	#press_to_cont("Press to Continue or type 'QUIT' > ")
+    if push_to_cont:
+		press_to_cont("Press to Continue or type 'QUIT' > ")
     
     for f in files:
         # Alias original filepath
