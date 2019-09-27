@@ -1,2 +1,2 @@
 #!/bin/bash
-exec ~/Git/nameless_space_replace/nsr.py "$@"
+exec ~/Git/nameless-space-replace/nsr.py "$@"

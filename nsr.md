@@ -1,0 +1,488 @@
+<!DOCTYPE html>
+<html><head>
+<meta charset="UTF-8">
+ 
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/monokai-sublime.min.css">
+<script type="text/javascript" src="https://cdn.jsdelivr.net/npm/mathjax@2.7.1/MathJax.js?config=TeX-AMS_HTML"></script>
+ 
+<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js"></script>
+<script src="https://unpkg.com/mermaid@7.1.2/dist/mermaid.min.js"></script>
+<style>
+img {
+	max-width: 100%;
+}
+
+table {
+	width: 100%;
+	border-collapse: collapse;
+}
+
+th {
+	background-color: rgba(0,0,0,0.3);
+}
+
+table, th, td {
+	padding: 5px;
+	border: 1px solid rgba(0,0,0,0.3);
+	border-radius: 0.4em;
+	-moz-border-radius: 0.4em;
+	-webkit-border-radius: 0.4em;
+}
+
+tr:nth-child(even) {
+	background-color: rgba(0,0,0,0.3);
+}
+
+html { font-size: 62.5%; }
+html, body { height: 100%; }
+
+body {
+	font-family: Helvetica, Arial, sans-serif;
+	font-size: 150%;
+	line-height: 1.3;
+	color: #f6e6cc;
+	width: 700px;
+	margin: auto;
+	background: #27221a;
+	position: relative;
+	padding: 0 30px;
+}
+
+p,ul,ol,dl,table,pre { margin-bottom: 1em; }
+ul { margin-left: 20px; }
+a { text-decoration: none; cursor: pointer; color: #ba832c; font-weight: bold; }
+a:focus { outline: 1px dotted; }
+a:visited {  }
+a:hover, a:focus { color: #d3a459; text-decoration: none; }
+a *, button * { cursor: pointer; }
+hr { display: none; }
+small { font-size: 90%; }
+input, select, button, textarea, option { font-family: Arial, "Lucida Grande", "Lucida Sans Unicode", Arial, Verdana, sans-serif; font-size: 100%; }
+button, label, select, option, input[type=submit] { cursor: pointer; }
+.group:after { content: "."; display: block; height: 0; clear: both; visibility: hidden; } .group {display: inline-block;}
+/* Hides from IE-mac \*/ * html .group {height: 1%;} .group {display: block;} /* End hide from IE-mac */
+sup { font-size: 80%; line-height: 1; vertical-align: super; }
+button::-moz-focus-inner { border: 0; padding: 1px; }
+span.amp { font-family: Baskerville, "Goudy Old Style", "Palatino", "Book Antiqua", serif; font-weight: normal; font-style: italic; font-size: 1.2em; line-height: 0.8; }
+
+h1,h2,h3,h4,h5,h6 { 
+    line-height: 1.1; 
+    font-family: Baskerville, "Goudy Old Style", "Palatino", "Book Antiqua", serif;
+}
+
+h2 { font-size: 22pt; }
+h3 { font-size: 20pt; }
+h4 { font-size: 18pt; }
+h5 { font-size: 16pt; }
+h6 { font-size: 14pt; }
+
+::selection { background: #745626; }
+::-moz-selection { background: #745626; }
+
+h1 {
+	font-size: 420%;
+	margin: 0 0 0.1em;
+	font-family: Baskerville, "Goudy Old Style", "Palatino", "Book Antiqua", serif;
+}
+
+h1 a,
+h1 a:hover {
+	color: #d7af72;
+	font-weight: normal;
+	text-decoration: none;
+}
+
+pre {
+	background: rgba(0,0,0,0.3);
+	color: #fff;
+	padding: 8px 10px;
+	border-radius: 0.4em;
+	-moz-border-radius: 0.4em;
+	-webkit-border-radius: 0.4em;
+	overflow-x: hidden;
+}
+
+pre code {
+	font-size: 10pt;
+}
+
+.thumb { 
+    float:left;
+    margin: 10px;
+}
+table.eq_table {
+	border-collapse: collapse;
+ 	border: 0;
+	width: 100%;
+}
+table.eq_table td, table.eq_table th {
+	border: 0;
+}
+table.eq_table tfoot td {
+ 	border: 0;
+}
+table.eq_table tfoot .links {
+ 	text-align: right;
+ 	border: 0;
+}
+
+td.counter {
+	text-align: right;
+	border: 0;
+}
+
+td.eq_code {
+	width: 100%;
+	border: 0;
+	text-align: center;
+}
+
+.eq_table > tr, td, th, {
+	border: 0;
+}
+
+figure {
+	width: 100%;
+	text-align: center;
+}
+
+figure figcaption {
+	text-align: center;
+	font-size: 11pt;
+}
+
+figure img {
+	max-width: 100%;
+}
+
+code {
+    font-family: monospace;
+}
+
+img {
+	max-width: 100%;
+}
+
+.authors
+{
+	text-align: center;
+	font-size: 14pt;
+	font-weight: bold;
+}
+
+.authors:empty
+{
+	display: none;
+}
+
+
+.affiliation
+{
+	text-align: center;
+}
+
+.affiliation:empty
+{
+	display: none;
+}
+
+.title
+{
+	text-align: center;
+	margin-bottom: 5pt;
+}
+
+.title:empty
+{
+	display: none;
+}
+
+.header{
+  margin-bottom: 20pt;
+}
+
+.header:empty {
+   display: none;
+}
+
+.slide {
+  display: flex;
+  width: 221mm;
+  height: 166mm;
+  margin: 0 auto 20px auto;
+  padding: 0;
+  align-items: center;
+  border: 1px solid #000;
+}
+
+.slide_169 {
+  width: 294mm;
+  height: 166mm;
+}
+
+
+.slide_body {
+  display: block;
+  width: 191mm;
+  height: 136mm;
+  margin: auto;
+  overflow: hidden;
+}
+
+
+.slide_169 > .slide_body {
+  width: 264mm;
+}
+
+.slide figure {
+  width: auto;
+}
+
+.slide figcaption {
+  font-size: 14pt;
+}
+
+
+.slide_body .charter {
+ font-size: 12pt;
+ max-width: 180mm;
+}
+
+.header > .slide_body {
+    height: auto;
+}
+
+.figure > .charter {
+  margin: auto;
+}
+
+.slide_body:empty {
+  display: none;
+}
+
+.slide:empty{
+  display: none;
+}
+
+
+@media print {
+  body  {
+    margin: 0;
+    padding: 0;
+  }
+
+  .slide {
+    page-break-after: always;
+    margin: 0;
+    padding: 0;
+    width: 221mm;
+    min-height: 165.5mm;
+    height: 165.5mm;
+    max-height: 165.5mm;
+    border: none;
+    overflow: hidden;
+    border: 0;
+  }
+
+  .slide_169 {
+    width: 294mm;
+  }
+}
+
+*:not(span){
+  unicode-bidi: plaintext;
+}
+.× V
+</style>
+</head>
+<body>
+<div class="document">
+<div class="header"></div><div class="inner">
+<h2 id="toc_1">Nameless Space Replace by viruFac()</h2>
+
+<pre><code>#!/usr/bin/env python3
+
+import os
+import sys
+import shutil
+import string
+</code></pre>
+
+<p>The script uses basic imports. The main one of note is <code>string</code>, which we can use to programatically generate a better dictionary than the following manually entered dictionary:</p>
+
+<pre><code class="language-python">rm = {&#39; &#39;: &#39;_&#39;,
+      &#39;[&#39;: &#39;&#39;,
+      &#39;]&#39;: &#39;&#39;,
+      &#39;{&#39;: &#39;&#39;,
+      &#39;}&#39;: &#39;&#39;,
+      &#39;!&#39;: &#39;&#39;,
+      &#39;$&#39;: &#39;&#39;,
+      &#39;&amp;&#39;: &#39;&#39;,
+      &#39;*&#39;: &#39;&#39;,
+      &#39;%&#39;: &#39;&#39;,
+      &#39;@&#39;: &#39;at&#39;,
+      &#39;(&#39;: &#39;&#39;,
+      &quot;)&quot;: &#39;&#39;,
+      &quot;#&quot;: &#39;no&#39;,
+      &#39;:&#39;: &#39;-&#39;,
+      &#39;;&#39;: &#39;&#39;,
+      &#39;&quot;&#39;: &#39;&#39;,
+      &quot;&#39;&quot;: &#39;&#39;}
+</code></pre>
+
+<h3 id="toc_1.1">Dict key-values are <code>placeholder-insert</code> pairs</h3>
+
+<p>In this dictionary, the keys are the special characters that do not belong in the filenames of POSIX standard file systems; the values are the characters we would like to have replace them in our file names. </p>
+
+<p>For the most part this key value will be the blank string I&#39;d think, as you can see in the example. This is why doing it a different way is more than likely easier and less prone to forgetting an important character to check for. </p>
+
+<p>If you have many sophisticated replacement requirements for each character in your data structure <em>(which you most likely do not)</em> then go ahead and enter them manually because that will be easier in that case; otherwise:</p>
+
+<pre><code class="language-python">rm_keys_list = [char for char in string.punctuation + 
+      string.whitespace if not char in &quot;-_+.&quot;]
+</code></pre>
+
+<p>If you were to <code>print(rm)</code> you would see that a lot of lame characters that should never find their way into a file name are added. You could further add to this by using the UTF-8 ranges of foreign alphabets if you really needed to. But I&#39;m not going to bother looking those up since I don&#39;t need to.</p>
+
+<pre><code>rm = dict()
+for key in rm_keys_list:
+   if key == &#39; &#39;:
+      rm[item] = &#39;_&#39;
+   else:
+      rm[item] = &#39;&#39;
+</code></pre>
+
+<p>You could use a dictionary comprehension for this but since you might like to have several conditionals that would insert something other than the blank string for a given character, this is more readable I think. In the example, we choose to replace spaces with underscores rather than eliminate what that space might represent by replace the blank string, which we can do with most characters easily.</p>
+
+<blockquote>
+<p><code>rm = {key: &#39;&#39; for key in rm_keys_list}</code> </p>
+</blockquote>
+
+<p>This will work fine if you have no such requirements.</p>
+
+<h3 id="toc_1.2">Onto the Functions</h3>
+
+<pre><code>def list_dir():
+    dir_path = os.getcwd()
+    list_files = os.listdir(dir_path)
+    return dir_path, list_files
+</code></pre>
+
+<p>In the directory where the script is executed, we will take note of the working directory before we count the quantity of files and directories in that given directory.</p>
+
+<pre><code>def divide_files_from_dirs(listed_files):
+    listedfiles = []
+    listeddirs = []
+    for f in listed_files:
+        f = os.path.abspath(f)
+        if os.path.isdir(f):
+            listeddirs.append(f)
+            print(f&quot;\tDIRECTORY: {f}&quot;)
+        elif os.path.isfile(f):
+            listedfiles.append(f)
+    print(&quot;&quot;)
+    return listedfiles
+</code></pre>
+
+<p>We make two empty lists and iterate over each item in the directory, sorting out the dirs from the files. Adding recursive functionality to this script seems dangerous to me, though I have come to trust it fairly readily if not in system directories (which shouldn&#39;t have the problem of bad file naming anyway... </p>
+
+<p>I still have not added recursive functionality. It seems better to me that way at least.</p>
+
+<pre><code>def press_to_cont(msg):
+    confirm = input(msg)
+    print(&quot;&quot;)
+    if confirm == &quot;QUIT&quot;:
+        sys.exit(1)
+</code></pre>
+
+<p>This function is mainly to give the user an opt out if they are wanting to test the script and see what exactly it will do but aren&#39;t certain they trust it yet. I added it for my own sake while testing it. The program won&#39;t tell you this, but you can enter <code>QUIT</code> at press to continue states and exit easily.</p>
+
+<pre><code>def count(files_to_count, file_types, path):
+    print(f&quot;There are {len(files_to_count)} {file_types} in {path}\n&quot;)
+</code></pre>
+
+<p>This function is basically to give the user and idea of how many files are getting changed. The numbers and confirmations made it easy for me to tell if something was wrong or off while testing.</p>
+
+<pre><code>def list_files(file_list):
+    for f in file_list:
+        print(f&quot;FILE: {f}&quot;)
+    print(&quot;&quot;)
+</code></pre>
+
+<p>Displaying the files helps you feel safe about it also.</p>
+
+<pre><code>def relist():
+    cwd, ls = list_dir()
+    files = divide_files_from_dirs(ls)
+    return files
+</code></pre>
+
+<p>Each time that you iterate over the keys in the rm dict for <code>removal</code> using the next function, you will have to update your list of files... Otherwise the names will not reflect the changes you made and the program will be confused.</p>
+
+<pre><code>def replace_single_char(char_to_remove, char_to_insert, file_list):
+    global files_renamed
+    files = [f for f in file_list if char_to_remove in f]
+    count(files, f&quot;files with &#39;{char_to_remove}&#39;&quot;, cwd)
+    #press_to_cont(&quot;Press to Continue or type &#39;QUIT&#39; &gt; &quot;)
+    for f in files:
+        # Alias original filepath
+        old = f
+        # Make sure only editing relative filepath
+        f = f.split(os.sep)
+        f = f[-1]
+        # cut out characters
+        split = f.split(char_to_remove)
+        resplit = char_to_insert.join(split)
+        new = os.path.abspath(resplit)
+        # rename
+        shutil.move(old, new)
+        files_renamed += 1
+    print(f&quot;files with &#39;{char_to_remove}&#39; renamed with &#39;{char_to_insert}&#39;&quot;)
+    # Make sure that file list reflects changes
+    files = relist()
+    return files
+</code></pre>
+
+<p>The comments more or less explain the process of replacing the characters.</p>
+
+<pre><code>files_renamed = 0
+cwd, ls = list_dir()
+count(ls, &quot;files and directories&quot;, cwd)
+files = divide_files_from_dirs(ls)
+press_to_cont(&quot;&quot;&quot;
+\tScript does not currently have 
+recursive functionality,\n\tso all files inside these 
+directories will not be processed.\n\nPress RETURN to Continue or type &#39;QUIT&#39; &gt;  
+&quot;&quot;&quot;)
+count(files, &quot;files to process&quot;, cwd)
+list_files(files)
+for k, v in rm.items():
+    files = replace_single_char(k, v, files)
+
+print(f&quot;Process Complete.\n\t{files_renamed} files were renamed&quot;)
+</code></pre>
+
+<p>Once you develop the sense of trust in the script and that it&#39;s not ever making mistakes that break anything and only misses the most obscure of weird characters that sneak into file names... you will want to make a shell script that goes in your <code>/bin/</code> directory. The shell script should point to the permanent path to your nsr.py file. Once in the <code>/bin/</code> it will execute the python script from any directory you call <code>nsr</code> from.</p>
+
+<p>Bash script is simple as this... I usually remove the <code>.sh</code> from the filename so I can call it with only <code>nsr</code> </p>
+
+<pre><code class="language-bash">#!/bin/bash
+exec ~/Git/nameless_space_replace/nsr.py &quot;$@&quot;
+</code></pre>
+
+<h4 id="toc_1.2.1">Just Please Do Not Use the Shell Script in This Manner in a System Directory with Root or Sudoed Permissions</h4>
+
+<p>I&#39;m pretty sure the most likely thing that would happen is you would delete your <code>lost+found</code> potentially, but other than that... I think you would be okay. But... don&#39;t take any chances.</p>
+
+<p>Hope you enjoyed learning this script.</p>
+
+<p><a href="https://github.com/virufac/nameless-space-replace/blob/master">https://github.com/virufac/nameless-space-replace/blob/master</a></p>
+
+<h5 id="toc_1.2.1.4">-- viruFac</h5>
+</div>
+</div>
+ 
+<script>hljs.initHighlightingOnLoad();</script>
+<script>mermaid.initialize({startOnLoad:true});</script>
+</body>
+</html>

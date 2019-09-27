@@ -1,34 +1,59 @@
 #!/usr/bin/env python3
 
-import os
-import sys
-import shutil
+import os, sys, shutil, string
 
-rm = {' ': '_',
-      '[': '',
-      ']': '',
-      '{': '',
-      '}': '',
-      '!': '',
-      '$': '',
-      '&': '',
-      '*': '',
-      '%': '',
-      '@': 'at',
-      '(': '',
-      ")": '',
-      "#": 'no',
-      ':': '-',
-      ';': '',
-      '"': '',
-      "'": ''}
+
+# Data Structure:
+#################
+
+russian_alphabet_off = False
+
+# This will produce a string of all the characters in the Russian alphabet.
+russian_alphabet = ''.join(
+	[chr(i) for i in range(1040, 1104)])
+
+if russian_alphabet_off:
+	russian_alphabet = ''
+
+# This will produce a list of punctuation and whitespace characters we don't want in file names.
+rm_keys_list = [char for char in string.punctuation + 
+      string.whitespace if not char in "-_+."]
+
+# This will add all of the alphabet characters to the list.
+for chr in russian_alphabet:
+	rm_keys_list.append(chr)
+
+# This transforms list into the dict.
+rm = dict()
+for key in rm_keys_list:
+	if key == ' ':
+		rm[key] = "_"
+		# Space will become '_'
+	elif key == '@':
+		rm[key] = 'at'
+		# @ will become 'at'
+	elif key == ':':
+		rm[key] = '-'
+		# Colon will become '-'
+	else: 
+		rm[key] = ''
+		# blank string removes others characters.
+
+files_renamed = 0
+
+
+# Fucntions:
+############
 
 def list_dir():
+# will list the files in the current directory
     dir_path = os.getcwd()
     list_files = os.listdir(dir_path)
     return dir_path, list_files
 
+
 def divide_files_from_dirs(listed_files):
+# will remove the directories from the files
     listedfiles = []
     listeddirs = []
     for f in listed_files:
@@ -42,29 +67,39 @@ def divide_files_from_dirs(listed_files):
     return listedfiles
 
 def press_to_cont(msg):
+# will toggle interactive (press-to-continue) mode if you comment in/out the line calling the function
     confirm = input(msg)
     print("")
     if confirm == "QUIT":
         sys.exit(1)
 
 def count(files_to_count, file_types, path):
+# counts the number of files, to determines if something looks wrong before processing
     print(f"There are {len(files_to_count)} {file_types} in {path}\n")
 
 def list_files(file_list):
+# will output the files without the directories to the terminal
     for f in file_list:
         print(f"FILE: {f}")
     print("")
 
 def relist():
+# will reflect the changes made after each replace_single_charater() call
     cwd, ls = list_dir()
     files = divide_files_from_dirs(ls)
     return files
 
 def replace_single_char(char_to_remove, char_to_insert, file_list):
+# will replace a single character at a name and rename the files. This is why the relist is necessary.
+	
     global files_renamed
     files = [f for f in file_list if char_to_remove in f]
-    count(files, f"files with '{char_to_remove}'", cwd)
-    #press_to_cont("Press to Continue or type 'QUIT' > ")
+    count(files, f"files with '{char_to_remove}'", os.getcwd())
+    
+	#remove the '#' from line below if you want the interactive mode:
+	
+	#press_to_cont("Press to Continue or type 'QUIT' > ")
+    
     for f in files:
         # Alias original filepath
         old = f
@@ -83,14 +118,27 @@ def replace_single_char(char_to_remove, char_to_insert, file_list):
     files = relist()
     return files
 
-files_renamed = 0
-cwd, ls = list_dir()
-count(ls, "files and directories", cwd)
-files = divide_files_from_dirs(ls)
-press_to_cont("\tScript does not currently have recursive functionality,\n\tso all files inside these directories will not be processed.\n\nPress RETURN to Continue or type 'QUIT' >  ")
-count(files, "files to process", cwd)
-list_files(files)
-for k, v in rm.items():
-    files = replace_single_char(k, v, files)
 
-print(f"Process Complete.\n\t{files_renamed} files were renamed")
+
+# Main 
+#######
+
+def main(rm_dict):
+	cwd, ls = list_dir()
+	count(ls, "files and directories", cwd)
+	files = divide_files_from_dirs(ls)
+	
+	press_to_cont("\tScript does not currently have recursive functionality,\n\t"\
+		+ "so all files inside these directories will not be processed.\n\n"
+		+ "Press RETURN to Continue or type 'QUIT'\n >  ")
+	
+	count(files, "files to process", cwd)
+	list_files(files)
+
+	for k, v in rm_dict.items():
+		files = replace_single_char(k, v, files)
+
+	print(f"Process Complete.\n\t{files_renamed} files were renamed")
+	
+if __name__ == '__main__':
+	main(rm)
