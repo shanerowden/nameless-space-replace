@@ -1,6 +1,9 @@
 #!/usr/bin/env python3
 
-import os, sys, shutil, string
+#from pathlib import Path
+import os, sys, string, shutil
+import argparse, subprocess, requests
+#from colorama import Fore, Style, Back
 
 
 
@@ -48,6 +51,7 @@ for key in rm_keys_list:
 		# blank string removes others characters.
 
 files_renamed = 0
+
 
 
 # Fucntions:
@@ -99,14 +103,14 @@ def relist():
 
 def replace_single_char(char_to_remove, char_to_insert, file_list):
 # will replace a single character at a name and rename the files. This is why the relist is necessary.
-	
+    
     global files_renamed
     files = [f for f in file_list if char_to_remove in f]
     count(files, f"files with '{char_to_remove}'", os.getcwd())
     
     if push_to_cont:
-		press_to_cont("Press to Continue or type 'QUIT' > ")
-    
+        press_to_cont("Press to Continue or type 'QUIT' > ")
+        
     for f in files:
         # Alias original filepath
         old = f
