@@ -35,7 +35,7 @@ There are other ways to get the script on $PATH, but this is the easiest way if 
 
 ## "Easy" Installation
 
-I'm going to assume you cloned the file to `~/Git/nameless-space-replace/nsr.py` ... and are going to use that path permenantly, so.. enter all of this into the command line if you are not sure how to set this up after I explained it, but keep in mind that the first thing we're typing the path of the file. So use the right one if yours is different.
+I'm going to assume you cloned the file to `~/Git/nameless-space-replace/nsr.py` ... and are going to use that path permenantly, so.. enter all of this into the command line if you are not sure how to set this up after I explained it, but keep in mind that the first thing we're typing is the path of the file. So use the right one if yours is different.
 
 `NSRPATH="~/Git/nameless-space-replace/nsr.py" && echo #!/bin/bash > nsr.sh && echo exec $NSRPATH "$@" >> nsr.sh && sudo chmod +x nsr.sh nsr.py && mv nsr.sh /bin/nsr` 
 
