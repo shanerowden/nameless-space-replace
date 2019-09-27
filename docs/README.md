@@ -4,7 +4,7 @@
 
 This simple script renames files for a CLI Linux experience without the horror of spaces or characters that cannot easily be typed: It replaces not only spaces with underscores but removes special characters and is capable of replacing any character with any character actually. 
 
-This is handy for me as an ex-Windows user who have hoarded files and never realized they would one day think like a CLI user...
+This is handy for me as an ex-Windows user who has hoarded files and never till recently realized I would one day think like a CLI user... and hate every single file name. This can fix that.
 
 
 ## Usage
