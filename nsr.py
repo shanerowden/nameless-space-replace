@@ -21,7 +21,7 @@ push_to_cont = False
 rm_keys_list = [char for char in string.punctuation + 
       string.whitespace if not char in "-_+."]
 
-if not russian_alphabet_on:
+if russian_alphabet_on:
 	
 	# This will produce a string of all the characters in the Russian alphabet.
 	russian_alphabet = ''.join(
