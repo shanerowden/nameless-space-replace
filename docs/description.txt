@@ -1,0 +1,3 @@
+nameless_space_replace is a simple script that renames files for a CLI Linux experience without the horror of the spaces, the wrapping quotations, and the characters that cannot easily be typed:  It replaces not only spaces with underscores but removes special characters and is capable of replacing any character with any other character actually. 
+
+virufac@protonmail.com & github.com/virufac

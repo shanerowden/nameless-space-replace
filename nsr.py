@@ -1,19 +1,40 @@
 #!/usr/bin/env python3
 
-#from pathlib import Path
 import os, sys, string, shutil
-import argparse, subprocess, requests
-#from colorama import Fore, Style, Back
+import random, argparse
+from pathlib import Path
 
 
 
-# Options
+# Initialize Paths
+##################
+
+script = Path(os.path.abspath(__file__))
+description = Path.joinpath(script.parent, 'docs', 'description.txt')
+
+
+
+# CLI Arguments
 #################
 
-russian_alphabet_on = True
-push_to_cont = False
+parser = argparse.ArgumentParser(description=description.read_text())
 
-# I know that these should be argparse options. They probably will be sooner or later.
+parser.add_argument("--interactive", '-i', 
+                    action="store_true", default=False,
+                    help="Ask Confirmations on Every File Process")
+
+parser.add_argument("--quiet", '-q', 
+                    action="store_true", default=False,
+                    help="Silences all print to stdout and makes the program less texy heavy.")
+
+# I will eventually add every character that is difficult to type but this is a start...
+parser.add_argument("--russian", '-R', action="store_true", default=False,
+                    help="Replace Russian Characters with random lowercase ASCII range letters")
+
+
+
+args = parser.parse_args()
+
 
 
 
@@ -22,39 +43,42 @@ push_to_cont = False
 
 # This will produce a list of punctuation and whitespace characters we don't want in file names.
 rm_keys_list = [char for char in string.punctuation + 
-      string.whitespace if not char in "-_+."]
+      string.whitespace if not char in "-_+./"]
 
-if russian_alphabet_on:
-	
-	# This will produce a string of all the characters in the Russian alphabet.
-	russian_alphabet = ''.join(
-		[chr(i) for i in range(1040, 1104)])
 
-	# This will add all of the alphabet characters to the list.
-	for chr in russian_alphabet:
-		rm_keys_list.append(chr)
-
-# This transforms list into the dict.
 rm = dict()
+
+
+if args.russian:
+
+    # This will produce a string of all the characters in the Russian alphabet.
+    russian_alphabet = ''.join([chr(i) for i in range(1040, 1104)])
+
+    # This will add all of the alphabet characters to the dict for removal.
+    for char in russian_alphabet:
+        
+        # It uses random lowercase characters to make sure that a directory of full Russian file names
+        # would not reduce the files to such a short name that they repeatedly write over each other with the same name.
+        rm[char] = random.choice(string.ascii_lowercase)
+
+# transforms rm_keys_list into the rm dict..
 for key in rm_keys_list:
-	if key == ' ':
-		rm[key] = "_"
-		# Space will become '_'
-	elif key == '@':
-		rm[key] = 'at'
-		# @ will become 'at'
-	elif key == ':':
-		rm[key] = '-'
-		# Colon will become '-'
-	else: 
-		rm[key] = ''
-		# blank string removes others characters.
+    if key == ' ':
+        rm[key] = ""
+        # Space will become '_'
+    elif key == '@':
+        rm[key] = 'at'
+        # @ will become 'at'
+    elif key == ':':
+        rm[key] = '-'
+        # Colon will become '-'
+    else: 
+        rm[key] = ''
+        # blank string removes others characters.
 
 files_renamed = 0
 
-
-
-# Fucntions:
+# Functions:
 ############
 
 def list_dir():
@@ -72,7 +96,8 @@ def divide_files_from_dirs(listed_files):
         f = os.path.abspath(f)
         if os.path.isdir(f):
             listeddirs.append(f)
-            print(f"\tDIRECTORY: {f}")
+            if not args.quiet:
+                print(f"\tDIRECTORY: {f}")
         elif os.path.isfile(f):
             listedfiles.append(f)
     print("")
@@ -87,12 +112,14 @@ def press_to_cont(msg):
 
 def count(files_to_count, file_types, path):
 # counts the number of files, to determines if something looks wrong before processing
-    print(f"There are {len(files_to_count)} {file_types} in {path}\n")
+    if not args.quiet:
+        print(f"There are {len(files_to_count)} {file_types} in {path}\n")
 
 def list_files(file_list):
 # will output the files without the directories to the terminal
     for f in file_list:
-        print(f"FILE: {f}")
+        if not args.quiet:
+            print(f"FILE: {f}")
     print("")
 
 def relist():
@@ -101,6 +128,28 @@ def relist():
     files = divide_files_from_dirs(ls)
     return files
 
+def collision_of_files(og_filename: str, potential_filename: str, files_in_cwd: list):
+# Check if file already Exists
+    potential_path = Path(potential_filename)
+    og_path = Path(og_filename)
+    if potential_path.exists():
+        return True
+    elif og_filename in files_in_cwd:
+        return True
+    else:
+        return False
+    
+
+def only_underscores_check(p):
+    for char in p:
+        if not char == "_":
+            return False, "_"
+    
+    rand = random.choice(string.ascii_letters.split(''))
+    
+    return True, rand
+    
+
 def replace_single_char(char_to_remove, char_to_insert, file_list):
 # will replace a single character at a name and rename the files. This is why the relist is necessary.
     
@@ -108,23 +157,33 @@ def replace_single_char(char_to_remove, char_to_insert, file_list):
     files = [f for f in file_list if char_to_remove in f]
     count(files, f"files with '{char_to_remove}'", os.getcwd())
     
-    if push_to_cont:
+    if args.interactive:
         press_to_cont("Press to Continue or type 'QUIT' > ")
         
     for f in files:
         # Alias original filepath
         old = f
+        
         # Make sure only editing relative filepath
         f = f.split(os.sep)
         f = f[-1]
+        
         # cut out characters
         split = f.split(char_to_remove)
         resplit = char_to_insert.join(split)
         new = os.path.abspath(resplit)
+        
         # rename
+        only_underscores, rand = only_underscores_check(new.split(os.sep)[-1])
+        if only_underscores:
+            new_name = rand + new.split(os.sep)[-1]
+            new = os.path.abspath(new_name)
         shutil.move(old, new)
         files_renamed += 1
-    print(f"files with '{char_to_remove}' renamed with '{char_to_insert}'")
+    
+    if not args.quiet:
+        print(f"files with '{char_to_remove}' renamed with '{char_to_insert}'")
+    
     # Make sure that file list reflects changes
     files = relist()
     return files
@@ -135,21 +194,25 @@ def replace_single_char(char_to_remove, char_to_insert, file_list):
 #######
 
 def main(rm_dict):
-	cwd, ls = list_dir()
-	count(ls, "files and directories", cwd)
-	files = divide_files_from_dirs(ls)
-	
-	press_to_cont("\tScript does not currently have recursive functionality,\n\t"\
-		+ "so all files inside these directories will not be processed.\n\n"
-		+ "Press RETURN to Continue or type 'QUIT'\n >  ")
-	
-	count(files, "files to process", cwd)
-	list_files(files)
+    cwd, ls = list_dir()
+    count(ls, "files and directories", cwd)
+    files = divide_files_from_dirs(ls)
 
-	for k, v in rm_dict.items():
-		files = replace_single_char(k, v, files)
+    if args.interactive:
+        press_to_cont("""\tScript does not currently have recursive functionality,\n\t 
+            so all files inside these directories will not be processed.\n\n
+            Press RETURN to Continue or type 'QUIT'\n >""")
+        
+    count(files, "files to process", cwd)
+    list_files(files)
 
-	print(f"Process Complete.\n\t{files_renamed} files were renamed")
-	
+    for k, v in rm_dict.items():
+        files = replace_single_char(k, v, files)
+    
+
+    print(f"Process Complete.\n\t{files_renamed} files were renamed")
+        
+
+
 if __name__ == '__main__':
-	main(rm)
+    main(rm)
