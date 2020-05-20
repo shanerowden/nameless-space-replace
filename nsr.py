@@ -5,18 +5,11 @@ import random, argparse
 from pathlib import Path
 
 
-
 # Initialize Paths
-##################
-
 script = Path(os.path.abspath(__file__))
 description = Path.joinpath(script.parent, 'docs', 'description.txt')
 
-
-
 # CLI Arguments
-#################
-
 parser = argparse.ArgumentParser(description=description.read_text())
 
 parser.add_argument('-i', "--interactive", 
@@ -31,23 +24,12 @@ parser.add_argument('-q', "--quiet",
 parser.add_argument('-R', "--russian", action="store_true", default=False,
                     help="Replace Russian Characters with random lowercase ASCII range letters")
 
-
-
 args = parser.parse_args()
-
-
-
-
-# Data Structure:
-#################
 
 # This will produce a list of punctuation and whitespace characters we don't want in file names.
 rm_keys_list = [char for char in string.punctuation + 
       string.whitespace if not char in "-_+./"]
-
-
 rm = dict()
-
 
 if args.russian:
 
@@ -78,8 +60,7 @@ for key in rm_keys_list:
 
 files_renamed = 0
 
-# Functions:
-############
+# Utils:
 
 def list_dir():
 # will list the files in the current directory
@@ -100,13 +81,11 @@ def divide_files_from_dirs(listed_files):
                 print(f"\tDIRECTORY: {f}")
         elif os.path.isfile(f):
             listedfiles.append(f)
-    print("")
     return listedfiles
 
 def press_to_cont(msg):
 # will toggle interactive (press-to-continue) mode
     confirm = input(msg)
-    print("")
     if confirm == "QUIT":
         sys.exit(1)
 
@@ -120,7 +99,6 @@ def list_files(file_list):
     for f in file_list:
         if not args.quiet:
             print(f"FILE: {f}")
-    print("")
 
 def relist():
 # will reflect the changes made after each replace_single_charater() call
@@ -139,7 +117,6 @@ def collision_of_files(og_filename: str, potential_filename: str, files_in_cwd: 
     else:
         return False
     
-
 def only_underscores_check(p):
     for char in p:
         if not char == "_":
@@ -149,7 +126,6 @@ def only_underscores_check(p):
     
     return True, rand
     
-
 def replace_single_char(char_to_remove, char_to_insert, file_list):
 # will replace a single character at a name and rename the files. This is why the relist is necessary.
     
@@ -188,11 +164,7 @@ def replace_single_char(char_to_remove, char_to_insert, file_list):
     files = relist()
     return files
 
-
-
 # Main 
-#######
-
 def main(rm_dict):
     cwd, ls = list_dir()
     count(ls, "files and directories", cwd)
@@ -212,7 +184,6 @@ def main(rm_dict):
 
     print(f"Process Complete.\n\t{files_renamed} files were renamed")
         
-
 
 if __name__ == '__main__':
     main(rm)
