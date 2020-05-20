@@ -19,16 +19,16 @@ description = Path.joinpath(script.parent, 'docs', 'description.txt')
 
 parser = argparse.ArgumentParser(description=description.read_text())
 
-parser.add_argument("--interactive", '-i', 
+parser.add_argument('-i', "--interactive", 
                     action="store_true", default=False,
                     help="Ask Confirmations on Every File Process")
 
-parser.add_argument("--quiet", '-q', 
+parser.add_argument('-q', "--quiet", 
                     action="store_true", default=False,
-                    help="Silences all print to stdout and makes the program less texy heavy.")
+                    help="Silences print to stdout making the program less text-heavy.")
 
 # I will eventually add every character that is difficult to type but this is a start...
-parser.add_argument("--russian", '-R', action="store_true", default=False,
+parser.add_argument('-R', "--russian", action="store_true", default=False,
                     help="Replace Russian Characters with random lowercase ASCII range letters")
 
 
