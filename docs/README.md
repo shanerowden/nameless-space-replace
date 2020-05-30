@@ -1,5 +1,5 @@
 # nameless-space-replace 
-## Shænᚱ, AKA virufac@pm.me
+## Shænᚱ
 ### version 2.3 | licensed under APGL 3.0
 
 This simple script renames files for a CLI Linux experience without the horror of spaces or characters that cannot easily be typed: It replaces not only spaces with underscores but removes special characters and is capable of replacing any character with any character actually. 
